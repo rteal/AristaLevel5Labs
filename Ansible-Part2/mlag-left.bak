@@ -1,0 +1,6 @@
+{# This creates the MLAG left configuration #}
+spanning-tree mode mstp
+no spanning-tree vlan-id {{vlan_num}}
+vlan {{vlan_num}}
+  trunk group MLAGPEER
+

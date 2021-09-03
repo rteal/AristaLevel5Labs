@@ -1,0 +1,28 @@
+{# This creates the MLAG left configuration #}
+{% set vlan-num = 4094 %}
+{% set intf-add = '192.168.255.2/30' %}
+{% set peer-add = '192.168.255.1' %}
+spanning-tree mode mstp
+no spanning-tree vlan-id {{vlan-num}}
+vlan {{vlan-num}}
+  trunk group MLAGPEER
+interface Vlan{{vlan-num}}
+  description MLAG PEER LINK
+  ip address {{intf-add}}
+interface Port-Channel10
+  description MLAG PEER LINK - LEAF
+  switchport mode trunk
+  switchport trunk group MLAGPEER
+mlag configuration
+  domain-id MLAG
+  local-interface Vlan{{vlan-num}}
+  peer-address {{peer-add}} 
+  peer-link Port-Channel10
+interface Ethernet1
+  description MLAG PEER LINK - LEAF
+  switchport mode trunk
+  channel-group 10 mode active
+interface Ethernet2
+  description MLAG PEER LINK -- LEAF
+  switchport mode trunk
+  channel-group 10 mode active

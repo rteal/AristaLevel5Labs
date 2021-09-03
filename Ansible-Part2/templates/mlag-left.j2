@@ -1,0 +1,24 @@
+spanning-tree mode mstp
+no spanning-tree vlan-id {{vlan_num}}
+vlan {{vlan_num}}
+  trunk group MLAGPEER
+interface Vlan{{vlan_num}}
+  description MLAG PEER LINK
+  ip address {{intf_add}}
+interface Port-Channel10
+  description MLAG PEER LINK - LEAF
+  switchport mode trunk
+  switchport trunk group MLAGPEER
+mlag configuration
+  domain-id MLAG
+  local-interface Vlan{{vlan_num}}
+  peer-address {{peer_add}} 
+  peer-link Port-Channel10
+interface Ethernet1
+  description MLAG PEER LINK - LEAF
+  switchport mode trunk
+  channel-group 10 mode active
+interface Ethernet2
+  description MLAG PEER LINK -- LEAF
+  switchport mode trunk
+  channel-group 10 mode active

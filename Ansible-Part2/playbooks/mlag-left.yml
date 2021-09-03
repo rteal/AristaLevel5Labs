@@ -1,0 +1,15 @@
+---
+- hosts: leafs_LEFT
+  gather_facts: no
+  vars:
+          vlan_num: 4094
+          intf_add: 192.168.255.1/30
+          peer_add: 192.168.255.2
+  tasks:
+  - name: Create template
+    template:
+      src: "{{lookup('env','PWD')}}/templates/mlag.j2"
+      dest: "{{lookup('env','PWD')}}/configs/{{inventory_hostname}}_mleft.cfg"
+  - name: Upload config
+    eos_config:
+      src: "{{lookup('env','PWD')}}/configs/{{inventory_hostname}}_mleft.cfg"
