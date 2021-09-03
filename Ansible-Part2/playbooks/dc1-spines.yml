@@ -1,0 +1,12 @@
+---
+- hosts: spines-DC1
+  gather_facts: no
+  tasks:
+  - name: Register variables
+    include_vars:
+      file: "{{lookup('env','PWD')}}/vars/dc.yml"
+      name: underlay
+  - name: Create a configuration for DC1 spines
+    template:
+      src: "{{lookup('env','PWD')}}/templates/dc-spines.j2"
+      dest: "{{lookup('env','PWD')}}/configs/{{inventory_hostname}}_config.cfg"
